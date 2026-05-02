@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neuro Train — Когнитивные тренировки</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+<div class="ambient ambient-3"></div>
+
+<nav>
+  <div class="nav-logo" onclick="nav('home')">
+    <div class="nav-logo-icon"><img src="assets/brain.png" width="24" height="24" style="border-radius: 6px;"></div>
+    <div class="nav-logo-text">NEURO <span>TRAIN</span></div>
+  </div>
+  <ul class="nav-links">
+    <li><a id="nl-home"    onclick="nav('home')"    class="active">Игры</a></li>
+    <li><a id="nl-lb"      onclick="nav('lb')"             >Рейтинг</a></li>
+    <li><a id="nl-profile" onclick="nav('profile')"        >Профиль</a></li>
+    <li><a id="nl-privacy" onclick="nav('privacy')"        >Конфиденциальность</a></li>
+    <li><a id="nl-rules"   onclick="nav('rules')"          >Правила</a></li>
+    <li id="nl-admin-li" style="display:none"><a id="nl-admin" onclick="nav('admin')" style="color:var(--gold)">⚙️ Админ</a></li>
+  </ul>
+  <div class="nav-end" id="nav-end">
+    <button class="btn btn-ghost btn-sm" onclick="nav('login')">Войти</button>
+    <button class="btn btn-primary btn-sm" onclick="nav('register')">Регистрация</button>
+  </div>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="goModal">
+  <div class="modal">
+    <span class="modal-emoji" id="goEmoji">🏆</span>
+    <div class="modal-title" id="goTitle">Игра окончена</div>
+    <div class="modal-score" id="goScore">0</div>
+    <div class="modal-score-label">очков</div>
+    <div class="modal-details" id="goDetails"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-full btn-lg" onclick="closeModal();startGame()">🔄 Ещё раз</button>
+      <button class="btn btn-ghost btn-full"          onclick="closeModal();nav('home')">← На главную</button>
+    </div>
+  </div>
+</div>
+
+<div class="page active" id="p-home">
+  <div class="container">
+    <div class="hero">
+      <img class="hero-brain-bg" src="assets/brain.png" alt="">
+      <div class="hero-badge"><div class="hero-badge-dot"></div>Научно обоснованные тренировки</div>
+      <h1>Тренируй<br>свой <span class="grad">мозг</span></h1>
+      <p class="hero-sub">5 когнитивных игр для развития памяти, внимания, реакции и логики. Отслеживай прогресс и соревнуйся с другими.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg" onclick="document.getElementById('games-s').scrollIntoView({behavior:'smooth'})">Начать тренировку</button>
+        <button class="btn btn-ghost btn-lg"   onclick="nav('lb')">Таблица лидеров</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">5</div>
+          <div class="hero-stat-label">Уникальных игр</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">1 247</div>
+          <div class="hero-stat-label">Активных игроков</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">38 K</div>
+          <div class="hero-stat-label">Сессий сыграно</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section" id="games-s">
+      <div class="section-header">
+        <div class="section-title">Все игры</div>
+      </div>
+      <div class="games-grid">
+        <div class="game-card" style="--game-color:#00c8ff" onclick="openGame('memory')">
+          <div class="game-card-gfx">🧠</div>
+          <div class="game-card-title">Memory Game</div>
+          <div class="game-card-desc">Найди все парные карточки за минимальное время</div>
+          <div class="game-card-footer">
+            <div class="diff-dots">
+              <div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot"></div>
+            </div>
+            <button class="play-btn">▶</button>
+          </div>
+        </div>
+        <div class="game-card" style="--game-color:#f43f5e" onclick="openGame('color')">
+          <div class="game-card-gfx">⚡</div>
+          <div class="game-card-title">Color Reaction</div>
+          <div class="game-card-desc">Реагируй только на нужный цвет — побей свой рекорд</div>
+          <div class="game-card-footer">
+            <div class="diff-dots">
+              <div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div>
+            </div>
+            <button class="play-btn">▶</button>
+          </div>
+        </div>
+        <div class="game-card" style="--game-color:#10d98e" onclick="openGame('word')">
+          <div class="game-card-gfx">💬</div>
+          <div class="game-card-title">Word Association</div>
+          <div class="game-card-desc">Давай быстрые ассоциации к словам под таймер</div>
+          <div class="game-card-footer">
+            <div class="diff-dots">
+              <div class="diff-dot on"></div><div class="diff-dot"></div><div class="diff-dot"></div>
+            </div>
+            <button class="play-btn">▶</button>
+          </div>
+        </div>
+        <div class="game-card" style="--game-color:#f0b429" onclick="openGame('numeric')">
+          <div class="game-card-gfx">🔢</div>
+          <div class="game-card-title">Numeric Sequence</div>
+          <div class="game-card-desc">Найди закономерность и угадай следующее число</div>
+          <div class="game-card-footer">
+            <div class="diff-dots">
+              <div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot"></div>
+            </div>
+            <button class="play-btn">▶</button>
+          </div>
+        </div>
+        <div class="game-card" style="--game-color:#7c3aed" onclick="openGame('puzzle')">
+          <div class="game-card-gfx">🧩</div>
+          <div class="game-card-title">Puzzle Solver</div>
+          <div class="game-card-desc">Собери 15-элементный пазл за минимум ходов</div>
+          <div class="game-card-footer">
+            <div class="diff-dots">
+              <div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div>
+            </div>
+            <button class="play-btn">▶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sm">
+      <div class="section-header">
+        <div class="section-title">Топ игроков</div>
+        <span class="section-link" onclick="nav('lb')">Все рейтинги →</span>
+      </div>
+      <div class="lb-mini">
+        <div class="lb-mini-head">
+          <div class="lb-mini-title">Таблица лидеров</div>
+          <div class="lb-filter-row">
+            <button class="lb-filter on"  onclick="filterMiniLb('all',this)">Все</button>
+            <button class="lb-filter"     onclick="filterMiniLb('memory',this)">Память</button>
+            <button class="lb-filter"     onclick="filterMiniLb('color',this)">Реакция</button>
+          </div>
+        </div>
+        <div id="mini-lb"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-logo"><div class="footer-logo-icon"><img src="assets/brain.png" alt="brain"></div>NEURO TRAIN</div>
+      <div class="footer-links">
+        <a onclick="nav('privacy')">Конфиденциальность</a>
+        <a onclick="nav('rules')">Правила</a>
+        <a onclick="nav('lb')">Рейтинг</a>
+      </div>
+      <div class="footer-copy">© 2025 Neuro Train. Все права защищены.</div>
+    </div>
+  </footer>
+</div>
+
+<div class="page" id="p-login">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <img src="assets/brain.png" style="width:56px;height:56px;object-fit:contain;filter:brightness(1.1) drop-shadow(0 0 12px rgba(0,136,255,0.5));" alt="brain">
+        <div class="auth-logo-name">NEURO TRAIN</div>
+      </div>
+      <div class="auth-title">Добро пожаловать</div>
+      <div class="auth-sub">Войди в аккаунт, чтобы сохранить прогресс и попасть в рейтинг</div>
+      <div class="form-error" id="le"></div>
+      <div class="form-group">
+        <label class="form-label">Имя пользователя</label>
+        <input class="form-input" id="lu" placeholder="username" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пароль</label>
+        <input class="form-input" type="password" id="lp" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary btn-full btn-lg mt-8" onclick="doLogin()">Войти</button>
+      <div class="auth-switch mt-16">Нет аккаунта? <a onclick="nav('register')">Зарегистрироваться</a></div>
+      <div class="auth-switch" style="margin-top:8px">Забыли пароль? <a onclick="nav('reset')">Сбросить</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="p-register">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <img src="assets/brain.png" style="width:56px;height:56px;object-fit:contain;filter:brightness(1.1) drop-shadow(0 0 12px rgba(0,136,255,0.5));" alt="brain">
+        <div class="auth-logo-name">NEURO TRAIN</div>
+      </div>
+      <div class="auth-title">Создать аккаунт</div>
+      <div class="auth-sub">Только логин и пароль. Занимает 20 секунд.</div>
+      <div class="form-error" id="re"></div>
+      <div class="form-group">
+        <label class="form-label">Имя пользователя</label>
+        <input class="form-input" id="ru" placeholder="coolbrain99" autocomplete="username">
+        <div class="form-hint">Минимум 3 символа. Только латинские буквы и цифры.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пароль</label>
+        <input class="form-input" type="password" id="rp" placeholder="••••••••" autocomplete="new-password">
+        <div class="form-hint">Минимум 8 символов</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">🔑 Кодовое слово</label>
+        <input class="form-input" id="rsw" placeholder="например: кот, молния, 42..." autocomplete="off">
+        <div class="form-hint">Запомни его — понадобится при сбросе пароля. Регистр не важен.</div>
+      </div>
+      <div class="captcha-block">
+        <div class="captcha-label">Проверочный вопрос</div>
+        <div class="captcha-question" id="captcha-question">—</div>
+        <input class="form-input" id="captcha-input" type="number" placeholder="Ваш ответ" style="max-width:140px">
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="a1">
+        <label for="a1">Я согласен(а) с <a onclick="nav('privacy')">политикой конфиденциальности</a></label>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="a2">
+        <label for="a2">Я согласен(а) с <a onclick="nav('rules')">правилами использования</a></label>
+      </div>
+      <button class="btn btn-primary btn-full btn-lg mt-8" onclick="doRegister()">Создать аккаунт</button>
+      <div class="auth-switch">Уже есть аккаунт? <a onclick="nav('login')">Войти</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="p-reset">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <img src="assets/brain.png" style="width:56px;height:56px;object-fit:contain;filter:brightness(1.1) drop-shadow(0 0 12px rgba(0,136,255,0.5));" alt="brain">
+        <div class="auth-logo-name">NEURO TRAIN</div>
+      </div>
+      <div class="auth-title">Сброс пароля</div>
+      <div class="auth-sub">Введи логин и кодовое слово, которое указал при регистрации</div>
+      <div class="form-error" id="rpe"></div>
+      <div class="form-group">
+        <label class="form-label">Имя пользователя</label>
+        <input class="form-input" id="rpu" placeholder="username" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🔑 Кодовое слово</label>
+        <input class="form-input" id="rpsw" placeholder="твоё секретное слово" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Новый пароль</label>
+        <input class="form-input" type="password" id="rpp" placeholder="••••••••" autocomplete="new-password">
+        <div class="form-hint">Минимум 8 символов</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Повтори новый пароль</label>
+        <input class="form-input" type="password" id="rpp2" placeholder="••••••••" autocomplete="new-password">
+      </div>
+      <button class="btn btn-primary btn-full btn-lg mt-8" onclick="doResetPassword()">Изменить пароль</button>
+      <div class="auth-switch mt-16">Вспомнил пароль? <a onclick="nav('login')">Войти</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="p-game">
+  <div class="game-wrap">
+    <div class="game-topbar">
+      <div class="back-btn" onclick="nav('home')">←</div>
+      <div class="game-title-tag" id="gtag">Memory Game</div>
+      <div class="diff-group">
+        <button class="diff-btn on" onclick="setDiff('easy',this)">Лёгкий</button>
+        <button class="diff-btn"   onclick="setDiff('medium',this)">Средний</button>
+        <button class="diff-btn"   onclick="setDiff('hard',this)">Сложный</button>
+      </div>
+    </div>
+    <div class="hud">
+      <div class="hud-cell"><div class="hud-label">Очки</div><div class="hud-val c-cyan"  id="h-score">0</div></div>
+      <div class="hud-cell"><div class="hud-label">Время</div><div class="hud-val"         id="h-time">00:00</div></div>
+      <div class="hud-cell"><div class="hud-label">Ходы</div><div class="hud-val c-gold"  id="h-moves">0</div></div>
+    </div>
+    <div id="gc"></div>
+  </div>
+</div>
+
+<div class="page" id="p-profile">
+  <div class="container">
+    <div class="profile-layout">
+      <div>
+        <div class="profile-card">
+          <div class="profile-ava" id="pava">G</div>
+          <div class="profile-name" id="pname">Гость</div>
+          <div class="profile-since">Участник с апреля 2025</div>
+          <div class="badge-row">
+            <span class="chip chip-gold">🏆 Мастер</span>
+            <span class="chip chip-cyan">⚡ Быстрый</span>
+            <span class="chip chip-teal">✓ 10 игр</span>
+          </div>
+          <div class="divider mb-0"></div>
+          <div class="profile-actions mt-16">
+            <button class="btn btn-ghost btn-full">✏️ Изменить пароль</button>
+            
+            <button class="btn btn-danger btn-full" onclick="confirmDel()">🗑️ Удалить аккаунт</button>
+          </div>
+        </div>
+      </div>
+      <div class="right-col">
+        <div>
+          <div class="section-title" style="font-size:16px;margin-bottom:14px">Общая статистика</div>
+          <div class="stat-grid-3">
+            <div class="stat-tile"><div class="stat-tile-label">Всего игр</div><div class="stat-tile-val" id="s-total">0</div></div>
+            <div class="stat-tile"><div class="stat-tile-label">Когнитивный балл</div><div class="stat-tile-val text-cyan" id="s-cog">0</div></div>
+            <div class="stat-tile"><div class="stat-tile-label">Рекорд</div><div class="stat-tile-val text-gold" id="s-best">0</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="section-title" style="font-size:16px;margin-bottom:14px">Прогресс по играм</div>
+          <div class="gp-list" id="gp-list"></div>
+        </div>
+        <div>
+          <div class="section-title" style="font-size:16px;margin-bottom:14px">Достижения</div>
+          <div class="ach-grid" id="ach-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="p-lb">
+  <div class="container">
+    <div class="lb-page-wrap">
+      <div class="lb-page-head">
+        <div class="lb-page-title">Таблица лидеров</div>
+        <div class="lb-page-sub">Лучшие игроки платформы Neuro Train</div>
+      </div>
+      <div class="lb-tabs-wrap" id="lb-tabs">
+        <button class="lb-tab on" onclick="switchLb('all',this)">🌐 Все игры</button>
+        <button class="lb-tab"   onclick="switchLb('memory',this)">🧠 Память</button>
+        <button class="lb-tab"   onclick="switchLb('color',this)">⚡ Реакция</button>
+        <button class="lb-tab"   onclick="switchLb('word',this)">💬 Слова</button>
+        <button class="lb-tab"   onclick="switchLb('numeric',this)">🔢 Числа</button>
+        <button class="lb-tab"   onclick="switchLb('puzzle',this)">🧩 Пазл</button>
+      </div>
+      <div class="lb-table">
+        <div class="lb-thead">
+          <div>#</div><div>Игрок</div><div>Рекорд</div><div>Ср. счёт</div><div>Игр</div>
+        </div>
+        <div id="lb-rows"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="p-privacy">
+  <div class="container">
+    <div class="doc-wrap">
+      <div class="doc-hero">
+        <div class="doc-tag"><span class="chip chip-teal">🔒 152-ФЗ / GDPR</span></div>
+        <div class="doc-title">Политика конфиденциальности</div>
+        <div class="doc-lead">Мы собираем минимум данных, необходимых для работы платформы. Ваши данные не продаются третьим сторонам и защищены современными методами шифрования.</div>
+        <div class="doc-updated">Последнее обновление: 25 апреля 2025 г.</div>
+      </div>
+
+      <div class="doc-toc">
+        <div class="doc-toc-title">Содержание</div>
+        <ul class="doc-toc-list">
+          <li><a href="#p1"><span class="doc-toc-num">01</span>Какие данные мы собираем</a></li>
+          <li><a href="#p2"><span class="doc-toc-num">02</span>Как мы используем данные</a></li>
+          <li><a href="#p3"><span class="doc-toc-num">03</span>Как мы защищаем данные</a></li>
+          <li><a href="#p4"><span class="doc-toc-num">04</span>Cookies и локальное хранилище</a></li>
+          <li><a href="#p5"><span class="doc-toc-num">05</span>Ваши права</a></li>
+          <li><a href="#p6"><span class="doc-toc-num">06</span>Сроки хранения данных</a></li>
+          <li><a href="#p7"><span class="doc-toc-num">07</span>Передача данных третьим лицам</a></li>
+          <li><a href="#p8"><span class="doc-toc-num">08</span>Контакт</a></li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="p1">
+        <div class="doc-section-title"><span>01</span> Какие данные мы собираем</div>
+        <div class="doc-callout"><strong>Принцип минимизации:</strong> мы запрашиваем только те данные, без которых платформа не может функционировать.</div>
+        <table class="doc-table">
+          <tr><th>Данные</th><th>Обязательно</th><th>Цель</th></tr>
+          <tr><td>Имя пользователя (username)</td><td>✓ Да</td><td>Идентификация в системе</td></tr>
+          <tr><td>Хеш пароля (bcrypt)</td><td>✓ Да</td><td>Аутентификация (пароль не хранится)</td></tr>
+          <tr><td>Email-адрес</td><td>✗ Нет</td><td>Восстановление пароля (только по запросу)</td></tr>
+          <tr><td>Прогресс в играх</td><td>✓ Да</td><td>Отображение статистики и рейтингов</td></tr>
+          <tr><td>Достижения</td><td>✓ Да</td><td>Система геймификации</td></tr>
+        </table>
+        <div class="doc-callout doc-callout-warn"><strong>Мы НЕ собираем:</strong> настоящее имя, фамилию, дату рождения, номер телефона, адрес, IP-адрес, геолокацию, биометрические данные и отпечатки браузера.</div>
+      </div>
+
+      <div class="doc-section" id="p2">
+        <div class="doc-section-title"><span>02</span> Как мы используем данные</div>
+        <ul class="doc-list">
+          <li>Обеспечение входа в систему и безопасности аккаунта</li>
+          <li>Хранение и отображение вашей игровой статистики</li>
+          <li>Формирование таблиц лидеров (только username и счёт)</li>
+          <li>Выдача и отображение достижений</li>
+          <li>Отправка письма со ссылкой сброса пароля (только если указан email)</li>
+          <li>Улучшение платформы на основе обезличенной агрегированной статистики</li>
+        </ul>
+        <div class="doc-p">Мы <strong>не используем</strong> ваши данные для таргетированной рекламы, профилирования личности или передачи маркетинговым партнёрам.</div>
+      </div>
+
+      <div class="doc-section" id="p3">
+        <div class="doc-section-title"><span>03</span> Как мы защищаем данные</div>
+        <ul class="doc-list">
+          <li>Все соединения защищены протоколом TLS 1.3 (HTTPS)</li>
+          <li>Пароли хешируются алгоритмом bcrypt с cost-фактором ≥ 12 — восстановить исходный пароль невозможно</li>
+          <li>JWT-токены имеют ограниченный срок жизни (24 часа) и автоматически инвалидируются</li>
+          <li>Применяется rate-limiting: не более 5 попыток входа за 15 минут</li>
+          <li>Все входные данные валидируются на стороне сервера</li>
+          <li>Cookie-флаги: Secure, HttpOnly, SameSite=Lax</li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="p4">
+        <div class="doc-section-title"><span>04</span> Cookies и локальное хранилище</div>
+        <div class="doc-p">Мы используем только технические cookies, необходимые для работы платформы:</div>
+        <table class="doc-table">
+          <tr><th>Тип</th><th>Назначение</th><th>Срок</th></tr>
+          <tr><td>Сессионный cookie</td><td>JWT-токен для аутентификации</td><td>24 часа</td></tr>
+          <tr><td>CSRF-токен</td><td>Защита от межсайтовых запросов</td><td>Сессия</td></tr>
+          <tr><td>localStorage</td><td>Локальный кеш прогресса (оффлайн-режим)</td><td>До выхода из аккаунта</td></tr>
+        </table>
+        <div class="doc-callout doc-callout-warn"><strong>Мы не используем:</strong> рекламные cookies, трекинговые пиксели, Google Analytics, Facebook Pixel или любые инструменты третьих сторон, собирающие персональные данные.</div>
+      </div>
+
+      <div class="doc-section" id="p5">
+        <div class="doc-section-title"><span>05</span> Ваши права (152-ФЗ и GDPR)</div>
+        <ul class="doc-list">
+          <li><strong>Право на доступ</strong> — запросить полный список хранимых данных через раздел «Профиль»</li>
+          <li><strong>Право на исправление</strong> — изменить пароль и email в любой момент</li>
+          <li><strong>Право на удаление</strong> — нажать «Удалить аккаунт»; все личные данные будут уничтожены в течение 30 дней</li>
+          <li><strong>Право на ограничение</strong> — деактивировать аккаунт без удаления данных</li>
+          <li><strong>Право на переносимость</strong> — экспортировать свои данные в формате JSON (в разработке)</li>
+          <li><strong>Право на отзыв согласия</strong> — вы можете отозвать согласие на обработку данных, удалив аккаунт</li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="p6">
+        <div class="doc-section-title"><span>06</span> Сроки хранения данных</div>
+        <table class="doc-table">
+          <tr><th>Данные</th><th>Срок хранения</th></tr>
+          <tr><td>Активный аккаунт</td><td>Бессрочно (пока аккаунт активен)</td></tr>
+          <tr><td>Удалённый аккаунт (soft delete)</td><td>30 дней, затем полное уничтожение</td></tr>
+          <tr><td>Анонимная игровая статистика</td><td>До 2 лет (без привязки к личности)</td></tr>
+          <tr><td>Логи безопасности</td><td>90 дней</td></tr>
+        </table>
+      </div>
+
+      <div class="doc-section" id="p7">
+        <div class="doc-section-title"><span>07</span> Передача данных третьим лицам</div>
+        <div class="doc-callout doc-callout-warn"><strong>Мы не продаём и не передаём</strong> ваши персональные данные рекламным сетям, брокерам данных или любым коммерческим организациям.</div>
+        <div class="doc-p">Данные могут быть переданы только в случаях, предусмотренных законодательством РФ (например, по официальному запросу правоохранительных органов с решением суда), а также облачным провайдерам (хостинг) на основании договоров о защите данных (DPA).</div>
+      </div>
+
+      <div class="doc-section" id="p8">
+        <div class="doc-section-title"><span>08</span> Контакт</div>
+        <div class="doc-p">По вопросам защиты персональных данных обращайтесь:</div>
+        <div class="doc-callout">
+          <strong>Email:</strong> admin@neurotrain.ru<br>
+          <strong>Время ответа:</strong> в течение 3 рабочих дней
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="p-rules">
+  <div class="container">
+    <div class="doc-wrap">
+      <div class="doc-hero">
+        <div class="doc-tag"><span class="chip chip-cyan">📖 Правила платформы</span></div>
+        <div class="doc-title">Правила использования</div>
+        <div class="doc-lead">Пожалуйста, ознакомьтесь с правилами перед использованием платформы Neuro Train. Регистрация означает ваше согласие со всеми изложенными условиями.</div>
+        <div class="doc-updated">Последнее обновление: 25 апреля 2025 г. · Версия 1.0</div>
+      </div>
+
+      <div class="doc-toc">
+        <div class="doc-toc-title">Содержание</div>
+        <ul class="doc-toc-list">
+          <li><a href="#r1"><span class="doc-toc-num">01</span>Общие положения</a></li>
+          <li><a href="#r2"><span class="doc-toc-num">02</span>Регистрация и аккаунт</a></li>
+          <li><a href="#r3"><span class="doc-toc-num">03</span>Правила игры и честная игра</a></li>
+          <li><a href="#r4"><span class="doc-toc-num">04</span>Описание игр и система очков</a></li>
+          <li><a href="#r5"><span class="doc-toc-num">05</span>Запрещённые действия</a></li>
+          <li><a href="#r6"><span class="doc-toc-num">06</span>Ответственность сторон</a></li>
+          <li><a href="#r7"><span class="doc-toc-num">07</span>Изменение правил</a></li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="r1">
+        <div class="doc-section-title"><span>01</span> Общие положения</div>
+        <div class="doc-p">Платформа Neuro Train (далее — «Платформа») предоставляет пользователям доступ к когнитивным тренировкам, направленным на развитие памяти, скорости реакции, логического и вербального мышления.</div>
+        <div class="doc-p">Использование Платформы бесплатно. Регистрация и принятие настоящих Правил являются условием доступа к персонализированным функциям (профиль, рейтинг, достижения). Гости могут просматривать общие рейтинги без регистрации.</div>
+      </div>
+
+      <div class="doc-section" id="r2">
+        <div class="doc-section-title"><span>02</span> Регистрация и аккаунт</div>
+        <ul class="doc-list">
+          <li>Для регистрации достаточно имени пользователя и пароля — email не является обязательным.</li>
+          <li>Один пользователь вправе создать не более одного активного аккаунта.</li>
+          <li>Username не должен содержать оскорбительных выражений, персональных данных других людей или имён публичных личностей без их согласия.</li>
+          <li>Вы несёте ответственность за сохранность своих учётных данных. При утечке немедленно смените пароль.</li>
+          <li>Аккаунт можно удалить в любой момент через раздел «Профиль». Удаление необратимо после истечения 30-дневного периода grace-delete.</li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="r3">
+        <div class="doc-section-title"><span>03</span> Правила игры и честная игра</div>
+        <div class="doc-callout"><strong>Честная игра — основной принцип Neuro Train.</strong> Таблицы лидеров отражают реальные когнитивные способности, а не технические ухищрения.</div>
+        <ul class="doc-list">
+          <li>Запрещается использование автоматических кликеров, скриптов и ботов для прохождения игр.</li>
+          <li>Запрещается намеренное замедление сети для влияния на игровые таймеры.</li>
+          <li>Запрещается использование уязвимостей системы для накрутки очков — о найденных багах следует сообщать на admin@neurotrain.ru.</li>
+          <li>Результаты, полученные нечестным путём, будут аннулированы без предупреждения, аккаунт может быть заблокирован.</li>
+          <li>В режиме оффлайн прогресс сохраняется локально и синхронизируется при подключении — манипуляция локальными данными также квалифицируется как нарушение.</li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="r4">
+        <div class="doc-section-title"><span>04</span> Описание игр и система очков</div>
+        <table class="doc-table">
+          <tr><th>Игра</th><th>Цель</th><th>Развивает</th><th>Макс. сложность</th></tr>
+          <tr><td>🧠 Memory Game</td><td>Найти все парные карточки</td><td>Кратковременная память, внимание</td><td>8×8 сетка</td></tr>
+          <tr><td>⚡ Color Reaction</td><td>Реагировать на нужный цвет</td><td>Скорость реакции, фокус</td><td>1 жизнь, 0.3 с</td></tr>
+          <tr><td>💬 Word Association</td><td>Давать ассоциации к словам</td><td>Вербальное мышление, творчество</td><td>30 слов, 5 с</td></tr>
+          <tr><td>🔢 Numeric Sequence</td><td>Угадать следующее число</td><td>Логика, паттерн-распознавание</td><td>Комбинированные ряды</td></tr>
+          <tr><td>🧩 Puzzle Solver</td><td>Собрать пазл за мин. ходов</td><td>Пространственное мышление</td><td>4×4 (15 плиток)</td></tr>
+        </table>
+        <div class="doc-p">Когнитивный балл (Cognitive Score) рассчитывается как скользящее среднее результатов всех игр с учётом сложности. Сезонные рейтинги обновляются ежечасно.</div>
+      </div>
+
+      <div class="doc-section" id="r5">
+        <div class="doc-section-title"><span>05</span> Запрещённые действия</div>
+        <ul class="doc-list">
+          <li>Использование Платформы в любых незаконных целях по законодательству РФ</li>
+          <li>Попытки получить несанкционированный доступ к системам Платформы или данным других пользователей</li>
+          <li>Публикация оскорбительного, дискриминационного или вводящего в заблуждение контента (включая username)</li>
+          <li>Создание нескольких аккаунтов для манипуляции рейтингами</li>
+          <li>Распространение вредоносного программного обеспечения через Платформу</li>
+          <li>Любые действия, нарушающие работоспособность Платформы для других пользователей (DoS-атаки)</li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="r6">
+        <div class="doc-section-title"><span>06</span> Ответственность сторон</div>
+        <div class="doc-p">Neuro Train предоставляется «как есть». Мы прилагаем все усилия для обеспечения непрерывной работы Платформы, однако не гарантируем 100% доступности. Плановые технические работы будут заблаговременно анонсированы.</div>
+        <div class="doc-p">Пользователь несёт полную ответственность за действия, совершённые с его аккаунта. Администрация оставляет за собой право заблокировать или удалить аккаунт при нарушении настоящих Правил без предварительного уведомления.</div>
+        <div class="doc-callout">Если вы обнаружили нарушение со стороны другого пользователя или техническую проблему, пожалуйста, сообщите нам на <strong>admin@neurotrain.ru</strong>.</div>
+      </div>
+
+      <div class="doc-section" id="r7">
+        <div class="doc-section-title"><span>07</span> Изменение правил</div>
+        <div class="doc-p">Neuro Train оставляет за собой право изменять настоящие Правила. О существенных изменениях пользователи будут уведомлены через интерфейс Платформы не менее чем за 7 дней до вступления изменений в силу. Продолжение использования Платформы после уведомления означает согласие с новыми условиями.</div>
+        <div class="doc-p">Актуальная версия Правил всегда доступна на этой странице. История изменений хранится и может быть запрошена по email.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/api.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/leaderboard.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/games/memory.js"></script>
+<script src="js/games/color.js"></script>
+<script src="js/games/word.js"></script>
+<script src="js/games/numeric.js"></script>
+<script src="js/games/puzzle.js"></script>
+<script src="js/utils.js"></script>
+
+<div class="page" id="p-admin">
+  <div class="container">
+    <div class="lb-page-wrap">
+      <div class="lb-page-head">
+        <div class="lb-page-title" style="color:var(--gold)">⚙️ Панель администратора</div>
+        <div class="lb-page-sub">Управление пользователями и данными</div>
+      </div>
+
+      
+      <div class="lb-tabs-wrap" id="admin-tabs" style="margin-bottom:24px">
+        <button class="lb-tab on" onclick="adminTab('users',this)">👥 Пользователи</button>
+        <button class="lb-tab"   onclick="adminTab('sessions',this)">📋 Сессии</button>
+        <button class="lb-tab"   onclick="adminTab('scores',this)">🎮 Результаты</button>
+      </div>
+
+      
+      <div id="admin-view-users">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div style="font-size:13px;color:var(--muted)" id="admin-users-count"></div>
+          <button class="btn btn-danger btn-sm" onclick="adminResetScores()">🗑️ Очистить все результаты</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px" id="admin-users-table">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border);color:var(--muted)">
+                <th style="text-align:left;padding:8px 6px">ID</th>
+                <th style="text-align:left;padding:8px 6px">Логин</th>
+                <th style="text-align:left;padding:8px 6px">Пароль (хэш)</th>
+                <th style="text-align:left;padding:8px 6px">Кодовое слово</th>
+                <th style="text-align:left;padding:8px 6px">Зарегистрирован</th>
+                <th style="text-align:left;padding:8px 6px">Входов</th>
+                <th style="text-align:left;padding:8px 6px">Игр</th>
+                <th style="text-align:left;padding:8px 6px">Рекорд</th>
+                <th style="text-align:left;padding:8px 6px">Статус</th>
+                <th style="text-align:left;padding:8px 6px">Действия</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      
+      <div id="admin-view-sessions" style="display:none">
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px" id="admin-sessions-table">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border);color:var(--muted)">
+                <th style="text-align:left;padding:8px 6px">Пользователь</th>
+                <th style="text-align:left;padding:8px 6px">Действие</th>
+                <th style="text-align:left;padding:8px 6px">IP</th>
+                <th style="text-align:left;padding:8px 6px">Время</th>
+              </tr>
+            </thead>
+            <tbody id="admin-sessions-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      
+      <div id="admin-view-scores" style="display:none">
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border);color:var(--muted)">
+                <th style="text-align:left;padding:8px 6px">Игрок</th>
+                <th style="text-align:left;padding:8px 6px">Игра</th>
+                <th style="text-align:left;padding:8px 6px">Очки</th>
+                <th style="text-align:left;padding:8px 6px">Ходы</th>
+                <th style="text-align:left;padding:8px 6px">Сек</th>
+                <th style="text-align:left;padding:8px 6px">Уровень</th>
+                <th style="text-align:left;padding:8px 6px">Время</th>
+              </tr>
+            </thead>
+            <tbody id="admin-scores-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════ ADMIN PANEL JS ═══════════════════
+let _adminCurrentTab = 'users';
+
+function adminTab(tab, btn) {
+  _adminCurrentTab = tab;
+  document.querySelectorAll('#admin-tabs .lb-tab').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  ['users','sessions','scores'].forEach(t => {
+    const el = document.getElementById('admin-view-' + t);
+    if (el) el.style.display = (t === tab) ? '' : 'none';
+  });
+  if (tab === 'users')    adminLoadUsers();
+  if (tab === 'sessions') adminLoadSessions();
+  if (tab === 'scores')   adminLoadScores();
+}
+
+async function renderAdminPage() {
+  adminLoadUsers();
+}
+
+async function adminLoadUsers() {
+  const r = await fetch('/api/admin/users', { credentials: 'same-origin' });
+  const d = await r.json();
+  if (!d.ok) { toast('Ошибка загрузки', 'err'); return; }
+  const tbody = document.getElementById('admin-users-body');
+  const count = document.getElementById('admin-users-count');
+  if (count) count.textContent = 'Всего: ' + d.users.length + ' пользователей';
+  if (!tbody) return;
+
+  tbody.innerHTML = '';
+
+  d.users.forEach(function(u) {
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid rgba(255,255,255,.05)';
+
+    function td(text, style) {
+      const el = document.createElement('td');
+      el.style.cssText = 'padding:8px 6px;' + (style || '');
+      el.textContent = text;
+      return el;
+    }
+
+    tr.appendChild(td(u.id, 'color:var(--muted)'));
+    tr.appendChild(td(u.username, 'font-weight:600'));
+
+    const hashTd = document.createElement('td');
+    hashTd.style.cssText = 'padding:8px 6px;font-family:monospace;font-size:11px;color:var(--gold);cursor:pointer';
+    hashTd.title = u.pw_hash || '';
+    hashTd.textContent = u.pw_hash ? u.pw_hash.substring(0, 16) + '…' : '—';
+    hashTd.addEventListener('click', function() {
+      navigator.clipboard.writeText(u.pw_hash || '').then(function() { toast('Хэш скопирован'); });
+    });
+    tr.appendChild(hashTd);
+
+    tr.appendChild(td(u.secret_word || '—', 'color:var(--cyan)'));
+    tr.appendChild(td(u.registered_at || '—', 'color:var(--muted);font-size:12px'));
+    tr.appendChild(td(u.login_count || 0));
+    tr.appendChild(td(u.total_games || 0));
+    tr.appendChild(td(u.best_score || 0, 'color:var(--gold)'));
+
+    const statusTd = document.createElement('td');
+    statusTd.style.cssText = 'padding:8px 6px';
+    const statusSpan = document.createElement('span');
+    statusSpan.style.color = u.is_active ? 'var(--green)' : 'var(--red)';
+    statusSpan.textContent = u.is_active ? 'Активен' : 'Заблокирован';
+    statusTd.appendChild(statusSpan);
+    tr.appendChild(statusTd);
+
+    const actionTd = document.createElement('td');
+    actionTd.style.cssText = 'padding:8px 6px';
+    if (u.is_active) {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-danger btn-sm';
+      btn.style.cssText = 'padding:4px 10px;font-size:12px';
+      btn.textContent = 'Удалить';
+      btn.addEventListener('click', function() { adminDeleteUser(u.id, u.username); });
+      actionTd.appendChild(btn);
+    } else {
+      actionTd.textContent = '—';
+    }
+    tr.appendChild(actionTd);
+
+    tbody.appendChild(tr);
+  });
+}
+
+async function adminLoadSessions() {
+  const r = await fetch('/api/admin/sessions?limit=100', { credentials: 'same-origin' });
+  const d = await r.json();
+  if (!d.ok) { toast('Ошибка загрузки', 'err'); return; }
+  const tbody = document.getElementById('admin-sessions-body');
+  if (!tbody) return;
+  const actionColor = { login: 'var(--green)', logout: 'var(--muted)', register: 'var(--cyan)', reset: 'var(--gold)' };
+  tbody.innerHTML = d.sessions.map(s => `
+    <tr style="border-bottom:1px solid rgba(255,255,255,.05)">
+      <td style="padding:8px 6px;font-weight:600">${s.username}</td>
+      <td style="padding:8px 6px;color:${actionColor[s.action]||'inherit'}">${s.action}</td>
+      <td style="padding:8px 6px;color:var(--muted);font-size:12px">${s.ip_address || '—'}</td>
+      <td style="padding:8px 6px;color:var(--muted);font-size:12px">${s.logged_at}</td>
+    </tr>`).join('');
+}
+
+async function adminLoadScores() {
+  const r = await fetch('/api/admin/scores?limit=100', { credentials: 'same-origin' });
+  const d = await r.json();
+  if (!d.ok) { toast('Ошибка загрузки', 'err'); return; }
+  const tbody = document.getElementById('admin-scores-body');
+  if (!tbody) return;
+  tbody.innerHTML = d.scores.map(s => `
+    <tr style="border-bottom:1px solid rgba(255,255,255,.05)">
+      <td style="padding:8px 6px;font-weight:600">${s.username}</td>
+      <td style="padding:8px 6px">${s.game}</td>
+      <td style="padding:8px 6px;color:var(--gold)">${s.score}</td>
+      <td style="padding:8px 6px">${s.moves}</td>
+      <td style="padding:8px 6px">${s.duration}</td>
+      <td style="padding:8px 6px;color:var(--muted)">${s.difficulty}</td>
+      <td style="padding:8px 6px;color:var(--muted);font-size:12px">${s.played_at}</td>
+    </tr>`).join('');
+}
+
+async function adminDeleteUser(id, username) {
+  if (!confirm(`Удалить пользователя ${username}?`)) return;
+  const r = await fetch('/api/admin/user/' + id, { method: 'DELETE', credentials: 'same-origin' });
+  const d = await r.json();
+  if (d.ok) { toast(`Пользователь ${username} удалён`, 'ok'); adminLoadUsers(); }
+  else toast('Ошибка: ' + (d.error || ''), 'err');
+}
+
+async function adminResetScores() {
+  if (!confirm('Очистить ВСЕ результаты и достижения? Это необратимо!')) return;
+  const r = await fetch('/api/admin/scores', { method: 'DELETE', credentials: 'same-origin' });
+  const d = await r.json();
+  if (d.ok) { toast('Результаты очищены', 'ok'); adminLoadScores(); }
+  else toast('Ошибка: ' + (d.error || ''), 'err');
+}
+</script>
+
+</body>
+</html>
